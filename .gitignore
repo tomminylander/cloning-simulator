@@ -1,0 +1,28 @@
+# Python-compiled byte-code
+*.py[co]
+
+# Doxygen-generated code documentation
+html
+latex
+
+# Results (maybe later we'll have them in the repo)
+results
+result*
+mintest
+matlab
+
+
+plotscripts/data.mat
+
+# Coverage report
+.coverage
+
+# Vim swap files
+*.swp
+
+# Matlab result files
+*.mat
+*.log
+
+# Matlab tikz files
+*.tex
