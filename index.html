@@ -41,7 +41,9 @@
 <p>Corresponding result directory:&nbsp;result_randomized_sync_vs_nonsync</p>
 <p>&nbsp;</p>
 <p>The most effective way to stop the simulation scripts that run in the container is to open a new terminal, and type</p>
-<p>&nbsp; &nbsp; &nbsp;&gt; docker run -it -v $(pwd)/plots:/work/plots -v $(pwd)/cloning-simulator:/work/cloning-simulator artifact /bin/bash</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; docker container ls</p>
+<p>and note the name of the container that is running. Then type&nbsp;</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; docker exec -it &lt;container-name&gt; bash</p>
 <p>to access a new terminal within the container. Then type</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; pkill python</p>
 <p>to kill all python processes within the container.</p>
