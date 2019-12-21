@@ -55,7 +55,7 @@ for scenario in NBR_SCENARIOS:
     cancellationDelay = cancellationDelayFrac*meanServiceTime
     arrivalDelay = arrivalDelayFrac*meanServiceTime
 
-    os.makedirs("result/randomized_combined_delays/scenario{}".format(scenario))
+    os.makedirs("result_randomized_combined_delays/scenario{}".format(scenario))
 
     count += 1
     simulations.append("./simulator.py  --lb clone-random --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \

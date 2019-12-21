@@ -49,7 +49,7 @@ for scenario in NBR_SCENARIOS:
     cloneFactor = getRandomCloneFactor(nbrServer)
     frac = getLambdaFrac(dist, util, cloneFactor)
 
-    os.makedirs("result/randomized_sync_vs_nonsync/scenario{}".format(scenario))
+    os.makedirs("result_randomized_sync_vs_nonsync/scenario{}".format(scenario))
 
     count += 1
     simulations.append("./simulator.py  --lb cluster-SQF --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
