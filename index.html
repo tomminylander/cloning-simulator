@@ -1,23 +1,65 @@
 <h2><strong>Artifact - </strong><em>Modeling of Request Cloning in Cloud Server </em><em>Systems<br /></em><em> using Processor Sharing</em></h2>
-<p><strong>Software requirements:</strong> Docker, Matlab 2019a for data pre-processing<br /><strong>Hardware requirements:</strong> Standard Linux PC for evaluation, access to some sort of computing infrastructure is<br />highly reccomended for running the actual experiments done in the paper.</p>
-<p>The artifact contains the cloning simulator, raw data and data preprocessing, and plotting of the data in LaTex as<br />displayed in the paper.</p>
+<p><strong>Software requirements:</strong> Docker (for running the simulator and re-creating the plots), Matlab R2018a (or newer, for running data pre-processing scripts).<br /><strong>Hardware requirements:</strong> Standard PC with OS compatible with Docker and Matlab (preferably Linux) for evaluation, access to some sort of computing infrastructure is<br />highly reccomended for running the actual experiments done in the paper. However, this is not necessary as we provide the complete simulation result data.</p>
+<p>The artifact contains the cloning simulator (including full source code and scripts that perform the experiments in the paper), simulation result data, pre-processing and analytics scripts, and plotting of the data in LaTex as displayed in the paper.</p>
 <h3><strong>Running the artifact docker container<br /></strong></h3>
-<p>Everything needed to run the components of the artifact is included in the form of a dockerfile. To build the<br />associated image, simply run</p>
+<p>Everything needed to run the components of the artifact is included in the form of a Dockerfile. To build the<br />associated image, in the home directory of the artifact simply run</p>
 <p style="padding-left: 30px;">&gt; docker build -t artifact .</p>
 <p>By starting the container, and sharing the folders for the plots and cloning simulator, results can easily be <br />accessed from the host. To start the container and run bash interactively with the shared folders, do</p>
 <p style="padding-left: 30px;">&gt; docker run -it -v $(pwd)/plots:/work/plots -v $(pwd)/cloning-simulator:/work/cloning-simulator artifact /bin/bash</p>
 <h3><strong>Evaluating the simulator<br /></strong></h3>
-<p>The simulator is contained in the /work/cloning-simulator directory and is directly executable from the artifact<br />container.</p>
+<p>The simulator is contained in the /work/cloning-simulator directory and is directly executable in the artifact<br />container. In the artifact container, type</p>
+<p>&nbsp; &nbsp; &nbsp; &gt; cd cloning-simulator</p>
+<p>to change directory to where the simulator is located.</p>
 <p>The main script of the simulator, "simulator.py" runs a single simulation for the given input parameters and<br />supplied scenario file. To get a detailed help on the available arguments for the simulator, run</p>
 <p style="padding-left: 30px;">&gt; python simulator.py&nbsp; --help</p>
 <p>The scenario files in "scenarios/" adds servers of desired types, and sets simulation<br />parameters.</p>
-<p>Larger simulations of e.g. parameter sweeps is most easily done through scripting. An example on how to run <br />the simulator in a scripted fashion is available in "sim_example.py" and its corresponding scenario file<br />"scenarios/clone-example.py". To run the example script, simply type</p>
+<p>Larger simulations of e.g. parameter sweeps are most easily done through scripting. An example on how to run <br />the simulator in a scripted fashion is available in "sim_example.py" and its corresponding scenario file<br />"scenarios/clone-example.py". To run the example script, simply type</p>
 <p style="padding-left: 30px;">&gt; python sim_example.py</p>
-<p>The results are stored in the directory "results_example/". Since the cloning-simulator is a shared directory the<br />output results can be accessed on the host computer directly.</p>
-<h3><strong>Data pre-processing</strong></h3>
-<p>The raw data needs to be processed for plotting, check scripts</p>
+<p>The results are stored in the directory "results_example/" in the artifact container. Since the cloning-simulator is a shared directory the<br />output results can be accessed on the host computer directly as well, in the created folder "results_example" in the cloning-simulator directory.</p>
+<p>The experiments in our paper are performed by executing the following scripts. Please note that most of them take days (or even weeks) to perform on a single desktop, depending on its performance and number of cores. Running these scripts to completion is thus not recommended, but they can be started in order to verify that they are functional. As individual simulation runs complete, their result is stored in the corresponding result directory of the experiment and can be examined immediately.</p>
+<p>In order to run the simulation experiments in our paper, first make sure that you are in the artifact container in the cloning-simulator directory.</p>
+<p>To run the G/G/1 example experiments:</p>
+<p>&nbsp; &nbsp; &nbsp; &gt;&nbsp;python sim_gg1_3dist.py</p>
+<p>Corresponding result directory: result_gg1Example</p>
+<p>To run the clone-to-all experiments:</p>
+<p>&nbsp; &nbsp; &nbsp;&gt;&nbsp;python sim_optimal_clone-ps.py&nbsp;</p>
+<p>Corresponding result directory:&nbsp;result_optimal_clone</p>
+<p>To run the co-design experiments:</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; python&nbsp;sim_codesigns_icpe.py&nbsp;</p>
+<p>Corresponding result directory:&nbsp;result_codesigns</p>
+<p>To run the randomized arrival delay experiments:</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; python sim_randomized_arrival_delays.py</p>
+<p>Corresponding result directory:&nbsp;result_randomized_arrival_delays</p>
+<p>To run the randomized cancellation delay experiments:</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; python sim_randomized_cancellation_delays.py</p>
+<p>Corresponding result directory:&nbsp;result_randomized_cancellation_delays</p>
+<p>To run the randomized combined delay experiments:</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; python sim_randomized_combined_delays.py</p>
+<p>Corresponding result directory:&nbsp;result_randomized_combined_delays</p>
+<p>To run the randomized sync vs nonsync experiments:</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; python sim_randomized_sync_vs_nonsync_icpe.py</p>
+<p>Corresponding result directory:&nbsp;result_randomized_sync_vs_nonsync</p>
+<p>&nbsp;</p>
+<p>The most effective way to stop the simulation scripts that run in the container is to open a new terminal, and type</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; docker run -it -v $(pwd)/plots:/work/plots -v $(pwd)/cloning-simulator:/work/cloning-simulator artifact /bin/bash</p>
+<p>to access a new terminal within the container. Then type</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; pkill python</p>
+<p>to kill all python processes within the container.</p>
+<h3><strong>Simulation result data</strong></h3>
+<p>All result data is included. In the home directory, extract the simulation-results.zip file.&nbsp;</p>
+<h3>&nbsp;</h3>
+<h3><strong>Data pre-processing and analysis</strong></h3>
+<p>The raw simulation data needs to be processed for plotting, in the analysis directory of the artifact analytics and pre-processing scripts are provided. Start Matlab (R2018a or newer), and make sure that you are in the analysis directory. Then the following scripts can be run in Matlab:</p>
+<p>&nbsp; &nbsp; &nbsp;&gt;&nbsp;analyze_codesigns.m&nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; analyze_randomized_arrival_delays.m</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; analyze_randomized_cancellation_delays.m</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; analyze_randomized_combined_delays.m</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; analyze_randomized_scenarios.m</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; analyze_gg1_example.m&nbsp;</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; analyze_opt_clone.m&nbsp; &nbsp;</p>
+<p>As previously stated, these scripts do not need to be run in order to re-create the plots as the results of the analysis scripts are already provided in the artifact.</p>
 <h3><strong>Recreating the plots</strong></h3>
 <p>The plots seen in the paper can be generated in LaTeX from the processed raw data. From the "/work/plots"&nbsp;<br />directory on the artifact container, simply run</p>
 <p style="padding-left: 30px;">&gt; pdflatex main.tex</p>
-<p>Since the plots directory is shared with the host, the resulting pdf-file is easily accessed.</p>
+<p>Since the plots directory in the container is shared with the host, the resulting pdf-file is easily accessed in the plots directory of the artifact.</p>
 <p>&nbsp;</p>

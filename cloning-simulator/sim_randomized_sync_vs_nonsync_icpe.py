@@ -54,28 +54,28 @@ for scenario in NBR_SCENARIOS:
     count += 1
     simulations.append("./simulator.py  --lb cluster-SQF --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir result/randomized_sync_vs_nonsync/scenario{}/clusterSQF-PS \
+        --setSeed {} --maxRunTime {} --outdir result_randomized_sync_vs_nonsync/scenario{}/clusterSQF-PS \
         ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
 
     count += 1
     simulations.append("./simulator.py  --lb cluster-random --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir result/randomized_sync_vs_nonsync/scenario{}/clusterRandom-PS \
+        --setSeed {} --maxRunTime {} --outdir result_randomized_sync_vs_nonsync/scenario{}/clusterRandom-PS \
         ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
 
     count += 1
     simulations.append("./simulator.py  --lb clone-SQF --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir result/randomized_sync_vs_nonsync/scenario{}/SQF-PS \
+        --setSeed {} --maxRunTime {} --outdir result_randomized_sync_vs_nonsync/scenario{}/SQF-PS \
         ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
 
     count += 1
     simulations.append("./simulator.py  --lb clone-random --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir result/randomized_sync_vs_nonsync/scenario{}/Random-PS \
+        --setSeed {} --maxRunTime {} --outdir result_randomized_sync_vs_nonsync/scenario{}/Random-PS \
         ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
 
-    with open("result/randomized_sync_vs_nonsync/scenario{}/description.csv".format(scenario), 'a') as f:
+    with open("result_randomized_sync_vs_nonsync/scenario{}/description.csv".format(scenario), 'a') as f:
         f.write("dist,{}\nutil,{}\nnbrServer,{}\ncloneFactor,{}\nlambdafrac,{}".format(dist, util, nbrServer, cloneFactor, frac))
 
 
