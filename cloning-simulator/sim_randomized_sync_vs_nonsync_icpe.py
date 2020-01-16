@@ -51,33 +51,35 @@ for scenario in NBR_SCENARIOS:
     cloneFactor = getRandomCloneFactor(nbrServer)
     frac = getLambdaFrac(dist, util, cloneFactor)
 
-    os.makedirs("result_randomized_sync_vs_nonsync/scenario{}".format(scenario))
+    resultPath = "../simulation-results/randomized-sync-vs-nonsync/scenario{}".format(scenario)
+    if not os.path.isdir(resultPath):
+        os.makedirs(resultPath)
 
     count += 1
     simulations.append("./simulator.py  --lb cluster-SQF --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir ../simulation-results/randomized_sync_vs_nonsync/scenario{}/clusterSQF-PS \
-        ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
+        --setSeed {} --maxRunTime {} --outdir {}/clusterSQF-PS \
+        ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, resultPath))
 
     count += 1
     simulations.append("./simulator.py  --lb cluster-random --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir ../simulation-results/randomized_sync_vs_nonsync/scenario{}/clusterRandom-PS \
-        ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
+        --setSeed {} --maxRunTime {} --outdir {}/clusterRandom-PS \
+        ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, resultPath))
 
     count += 1
     simulations.append("./simulator.py  --lb clone-SQF --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir ../simulation-results/randomized_sync_vs_nonsync/scenario{}/SQF-PS \
-        ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
+        --setSeed {} --maxRunTime {} --outdir {}/SQF-PS \
+        ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, resultPath))
 
     count += 1
     simulations.append("./simulator.py  --lb clone-random --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir ../simulation-results/randomized_sync_vs_nonsync/scenario{}/Random-PS \
-        ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
+        --setSeed {} --maxRunTime {} --outdir {}/Random-PS \
+        ".format(cloneFactor, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, resultPath))
 
-    with open("../simulation-results/randomized_sync_vs_nonsync/scenario{}/description.csv".format(scenario), 'a') as f:
+    with open("{}/description.csv".format(resultPath), 'a') as f:
         f.write("dist,{}\nutil,{}\nnbrServer,{}\ncloneFactor,{}\nlambdafrac,{}".format(dist, util, nbrServer, cloneFactor, frac))
 
 
