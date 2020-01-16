@@ -6,7 +6,8 @@
 <p style="padding-left: 30px;">&gt; docker build -t artifact .</p>
 <p>By starting the container and sharing the folder, results can easily be <br />accessed from the host. To start the container and run bash interactively with the shared folder, do</p>
 <p style="padding-left: 30px;">&gt; docker run -it -v $(pwd):/work/ --name artifact_container artifact /bin/bash</p>
-<h3><strong>Evaluating the simulator<br /></strong></h3>
+<h3><strong>Evaluating the simulator</strong></h3>
+<p>Additional information on the simulator architecture is available&nbsp;<a href="sim-architecture.html" target="_blank" rel="noopener">here</a>.</p>
 <p>The simulator is contained in the /work/cloning-simulator directory and is directly executable in the artifact<br />container. In the artifact container, type</p>
 <p>&nbsp; &nbsp; &nbsp; &gt; cd cloning-simulator</p>
 <p>to change directory to where the simulator is located.</p>
