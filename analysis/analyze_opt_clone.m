@@ -7,10 +7,13 @@ clear all;
 
 addpath('./functions')
 
-if ~isfile('clone:w_to_all.mat')
+if ~isfile('clone_to_all.mat')
     path = '../simulation-results/clone-to-all';
     
-    check_result_path(path);
+    if ~(check_result_path(path))
+        path = '../prerun-simulation-results/clone-to-all';
+        check_prerun_result_path(path);
+    end
     
     data = read_mcData(path);
     save('clone_to_all.mat', 'data');
@@ -228,6 +231,11 @@ new_optclones(new_index, 1) = orig_optclones(end, 1);
 new_optclones(new_index, 2) = orig_optclones(end, 2);
 
 %% Write data to csv
+
+dataPath = '../plots/data/clone-to-all/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
 
 csvwrite('../plots/data/clone-to-all/optclones-ps.csv',new_optclones)
 csvwrite('../plots/data/clone-to-all/meanRTs-ps.csv',new_meanRTs)

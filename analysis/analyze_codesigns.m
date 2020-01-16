@@ -9,7 +9,10 @@ addpath('./functions')
 if ~isfile('codesigns.mat')
     path = '../simulation-results/co-designs';
     
-    check_result_path(path);
+    if ~(check_result_path(path))
+        path = '../prerun-simulation-results/co-designs';
+        check_prerun_result_path(path);
+    end
     
     tests = dir(path);
     tests(1:2) = [];
@@ -86,6 +89,11 @@ end
 
 %% Write to csv
 
+dataPath = '../plots/data/co-design/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
+
 for k = 2:3
     respResults = zeros(length(LAMBDA_FRAC)*2, 1);
     cloneResults = zeros(length(LAMBDA_FRAC)*2, 1);
@@ -102,8 +110,8 @@ for k = 2:3
         rates(2*i) = LAMBDA_FRAC(i)+0.02;
     end
     
-    csvwrite(['../plots/data/co-design/' testData_PS(k).testName '-RT.csv'], [rates, respResults]);
-    csvwrite(['../plots/data/co-design/' testData_PS(k).testName '-clone.csv'], [rates, cloneResults]);
+    csvwrite([dataPath testData_PS(k).testName '-RT.csv'], [rates, respResults]);
+    csvwrite([dataPath testData_PS(k).testName '-clone.csv'], [rates, cloneResults]);
     
 end
     

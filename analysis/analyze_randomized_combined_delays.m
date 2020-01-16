@@ -8,7 +8,10 @@ clear all;
 if ~isfile('randomized_combined_data.mat')
     path = '../simulation-results/randomized-combined-delays';
     
-    check_result_path(path);
+    if ~(check_result_path(path))
+        path = '../prerun-simulation-results/randomized-combined-delays';
+        check_prerun_result_path(path);
+    end
     
     tests = dir(path);
     tests(1:2) = [];
@@ -96,6 +99,11 @@ for l=1:length(resultCell)
 end
 
 %% Write data to txt-files
+
+dataPath = '../plots/data/randomized-delays/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
 
 fileID = fopen('../plots/data/randomized-delays/randomized_combined_delays_confint_bound.txt','w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',(conf_bound_errors(1:end, :))');

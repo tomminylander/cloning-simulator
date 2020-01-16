@@ -10,7 +10,10 @@ addpath('./functions')
 if ~isfile('randomized_sync_vs_nonsync.mat')
     path = '../simulation-results/randomized-sync-vs-nonsync';
     
-    check_result_path(path);
+    if ~(check_result_path(path))
+        path = '../prerun-simulation-results/randomized-sync-vs-nonsync';
+        check_prerun_result_path(path);
+    end
     
     tests = dir(path);
     tests(1:2) = [];
@@ -96,6 +99,11 @@ for l=1:length(resultCell)
 end
 
 %% Write data to txt-files
+
+dataPath = '../plots/data/randomized-sync-vs-nonsync/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
 
 fileID = fopen('../plots/data/randomized-sync-vs-nonsync/randomized_sqf_clone_confint.txt','w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',conf_clone_sqf_errors');

@@ -9,7 +9,10 @@ addpath('./functions')
 if ~isfile('gg1_example.mat')
     path = '../simulation-results/gg1Example';
     
-    check_result_path(path);
+    if ~(check_result_path(path))
+        path = '../prerun-simulation-results/gg1Example';
+        check_prerun_result_path(path);
+    end
     
     tests = dir(path);   
     tests(1:2) = [];
@@ -33,11 +36,15 @@ end
 
 
 %% Compress the data and write to csv
+dataPath = '../plots/data/gg1-example/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
 
 for k=1:m
     
     name = dataCell{k, 1};
     compressed_data = compresser(dataCell{k, 2});
-    filename = ['../plots/data/gg1-example/' name '.csv'];
+    filename = [dataPath name '.csv'];
     csvwrite(filename, compressed_data);
 end
