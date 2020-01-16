@@ -2,6 +2,8 @@ import os
 import numpy as np
 from multiprocessing import Pool
 
+## Script that runs fast example simulations
+
 # Parameters
 PROCESSES = 10
 MC_SIMS = range(0, 5)

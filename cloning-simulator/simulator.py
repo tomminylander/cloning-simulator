@@ -141,9 +141,8 @@ def main():
         quit()
 
     for loadBalancingAlgorithm in loadBalancingAlgorithms:
-        #outdir = os.path.join(args.outdir, loadBalancingAlgorithm) Better if we denote paths individually
         outdir = args.outdir
-        if not os.path.exists(outdir): # Not cool, Python!
+        if not os.path.exists(outdir):
             os.makedirs(outdir)
         cloner = Cloner(setSeed=args.setSeed)
         sim = SimulatorKernel(cloner=cloner, outputDirectory=outdir, maxRunTime=args.maxRunTime)
@@ -179,10 +178,7 @@ def main():
         s = "Simulation {} completed, ".format(args.printsim) + s
     print(s)
 
-## Runs a single simulation
-# @param outdir folder in which results should be written
-# @param scenario file containing the scenario
-# @param loadBalancingAlgorithm load-balancing algorithm name
+## Runs a single simulation and reports the final result
 def runSingleSimulation(sim, scenario, loadBalancingAlgorithm, cloning, nbrClones, logging, printout, printRespTime,
                         dist, distpath, serviceRate, arrivalRateFrac, nbrOfServers, uniformArrivals, setSeed,
                         arrivalDelay, cancellationDelay):
@@ -317,12 +313,6 @@ def runSingleSimulation(sim, scenario, loadBalancingAlgorithm, cloning, nbrClone
     if printout:
         print(*[k for k,v in toReport], sep = ', ')
         print(*[v for k,v in toReport], sep = ', ')
-
-    #for key in sorted(utils.iterkeys()):
-    #    s = "server %s util: %s" % (key, utils[key])
-    #    if printout:
-    #        print(s)
-    #    sim.output('final-results', s)
 
 if __name__ == "__main__":
     main() # pragma: no cover

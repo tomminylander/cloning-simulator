@@ -6,7 +6,7 @@ nbrServers = nbrOfServers
 seed = setSeed
 
 # The scenario script is executed from within simulator.py, and gives an easy and general way of setting up the servers
-# in the system, as well as meta-parameters such as simulation time and queueing discipline.
+# in the system, as well as meta-parameters such as simulation time and queuing discipline.
 
 for i in range(0, nbrServers):
 

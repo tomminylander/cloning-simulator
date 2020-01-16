@@ -5,6 +5,8 @@ from multiprocessing import Pool
 import random as xxx_random # prevent accidental usage
 from base.utils import *
 
+## Script that runs the randomized sync vs non-sync simulations for the ICPE-2020 paper
+
 if len(sys.argv) == 4:
     scen_min = int(sys.argv[1])
     scen_max = int(sys.argv[2])
@@ -79,7 +81,7 @@ for scenario in NBR_SCENARIOS:
         f.write("dist,{}\nutil,{}\nnbrServer,{}\ncloneFactor,{}\nlambdafrac,{}".format(dist, util, nbrServer, cloneFactor, frac))
 
 
-# Run the simulation
+# Run the simulations
 pool = Pool(processes=PROCESSES)
 for k, simulation in enumerate(simulations):
     simulation += " --printsim {}".format(k+1)

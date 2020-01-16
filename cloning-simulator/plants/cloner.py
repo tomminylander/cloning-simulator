@@ -7,9 +7,11 @@ from base import Request
 from base.utils import *
 
 
-# Simulates a request cloner.
+## Simulates a request cloner.
 class Cloner:
 
+    ## Constructor
+    # @param setSeed The random seed
     def __init__(self, setSeed=123):
         self.seed = setSeed
 
@@ -30,15 +32,20 @@ class Cloner:
 
         self.sim = None
 
+    ## Set a reference to the simulator kernel sim
     def setSim(self, sim):
         self.sim = sim
 
+    ## Set if cloning should be active
     def setCloning(self, cloning):
         self.cloning = cloning
 
+    ## Set number of clones to use (1 if no cloning)
     def setNbrClones(self, nbrClones):
         self.nbrClones = nbrClones
 
+    ## Creates a clone of the specified request and stores it
+    # @param request The request to clone
     def clone(self, request):
         if not self.cloning:
             return None
@@ -58,6 +65,8 @@ class Cloner:
 
         return clone
 
+    ## Checks if the request has been cancelled
+    # @param request The request to check
     def isCanceled(self, request):
         if not self.cloning:
             return False
@@ -68,6 +77,8 @@ class Cloner:
         else:
             return True
 
+    ## Cancels all clones associated with the specified request
+    # @param request The request of interest
     def cancelAllClones(self, request):
         if not self.cloning:
             return
@@ -90,6 +101,7 @@ class Cloner:
             if hasattr(clone, 'avgProcessorShare'):
                 processorShares.append(clone.avgProcessorShare)
 
+        # Collect some statistics on processor shares for the clones
         self.processorShareMean = (self.processorShareMean*self.reqNbr + avg(processorShares))/(self.reqNbr+1)
         self.processorShareVarCoeff = (self.processorShareVarCoeff*self.reqNbr + np.std(processorShares)/avg(processorShares))/(self.reqNbr+1)
 
@@ -97,6 +109,8 @@ class Cloner:
 
         self.deleteClones(request)
 
+    ## Sets service times for all clones related to a specific request
+    # @param request The request of interest
     def setCloneServiceTimes(self, request):
         if not self.cloning:
             return
@@ -114,6 +128,8 @@ class Cloner:
                 serviceTime = slowdown*taskSize
                 self.activeRequests[request.requestId][i].serviceTime = serviceTime
 
+    ## Checks if the specified request should be cloned
+    # @param request The request of interest
     def shouldClone(self, request):
         currentNbrClones = self.getNbrClones(request)
         diff = self.nbrClones - currentNbrClones
@@ -124,6 +140,8 @@ class Cloner:
         else:
             return False
 
+    ## Creates a clone of the specified request
+    # @param request The request of interest
     def createClone(self, request):
         clone = Request()
         clone.createdAt = request.createdAt
@@ -134,6 +152,8 @@ class Cloner:
 
         return clone
 
+    ## Gets the number of clones associated to the specific request
+    # @param request The request of interest
     def getNbrClones(self, request):
         currentClones = self.getClones(request)
         nbrClones = 1
@@ -142,6 +162,11 @@ class Cloner:
 
         return nbrClones
 
+    ## Set what servers the clone should not be sent to (i.e.
+    #  servers where clones of the same request have been sent)
+    # @param request The request to clone
+    # @param clone The clone of the request
+    # @param otherClones Already existing clones of the same request
     def setIllegalServers(self, request, clone, otherClones):
         if otherClones:
             for i in range(0, len(otherClones)):
@@ -151,6 +176,8 @@ class Cloner:
             self.activeRequests[request.requestId] = [request, clone]
             clone.illegalServers.append(request.chosenBackendIndex)
 
+    ## Gets clones associated with the specific request
+    # @param request The request of interest
     def getClones(self, request):
         if not self.cloning:
             return None
@@ -162,9 +189,15 @@ class Cloner:
         else:
             return None
 
+    ## Deletes all clones associated to the specific request
+    # @param request The request of interest
     def deleteClones(self, request):
         del self.activeRequests[request.requestId]
 
+    ## Draws a hyper-exponential service time
+    # @param p The probability to choose the first exponential distribution (denoted by mu1)
+    # @param mu1 The service rate of the first exponential distribution
+    # @param mu2 The service rate of the second exponential distribution
     def drawHyperExpServiceTime(self, p=None, mu1=None, mu2=None):
 
         if p is None:
@@ -185,11 +218,15 @@ class Cloner:
             else:
                 return self.random.expovariate(mu2)
 
+    ## Draws s server slowdown represented by the Dolly distribution with a specific slowdown factor
+    # @param slowdownFactor The slowdown factor use
     def drawDollySlowdown(self, slowdownFactor):
         slowint = self.random.randint(0, 999)
         slowdown = self.dolly.item(slowint)
         return slowdown*slowdownFactor
 
+    ## Reads a csv file that contains the cdf of the distribution
+    # @param filename The name of the file that contains the cdf (in csv format)
     def readCsv(self, filename):
         floatvector = []
         with open(filename, 'r') as f:

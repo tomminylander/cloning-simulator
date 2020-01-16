@@ -1,14 +1,14 @@
 import random as xxx_random # prevent accidental usage
 from collections import deque
 
-## Represents a brownout compliant server.
-# Current implementation simulates processor-sharing with an infinite number of
-# concurrent requests and a fixed time-slice.
+## Represents a server queue. Contains a parameter maxActiveJobs
+# that sets the concurrent number of jobs that are served.
+# This allows the server to behave either as FCFS (maxActiveJobs=1), PS (maxActiveJobs=10000), or anything in between
 class Server:
     ## Variable used for giving IDs to servers for pretty-printing
     lastServerId = 1
 
-    ## Constructor.
+    ## Constructor
     def __init__(self, sim, serviceTimeDistribution=None, seed = 1, dollySlowdown=1,
                  meanStartupDelay = 0.0, meanCancellationDelay = 0.0):
         self.serviceTimeDistribution = serviceTimeDistribution
@@ -49,11 +49,14 @@ class Server:
         ## Reference to simulator
         self.sim = sim
 
+    ## Changes the number of active jobs that can be served
+    # @param newMC The new value to set maxActiveJobs to
     def changeMC(self, newMC):
         self.sim.log(self, "In server " + str(self.name) + " with newMC " + str(newMC) + " at " + str(self.sim.now))
         self.maxActiveJobs = newMC
 
-    ## Tells the server to serve a request.
+    ## Tells the server to serve a request. This is the main entry point of the class.
+    # @param request The request to serve
     def request(self, request):
         # self.sim.log(self, "Got to request in server with reqId " + str(request.requestId) + "," + str(request.isClone))
 
@@ -67,6 +70,8 @@ class Server:
         request.serverActivateRequest = lambda: self.activateRequest(request)
         self.sim.add(startupDelay, request.serverActivateRequest)
 
+    ## Starts to serve the specified request if possible
+    # @param request The request to start
     def activateRequest(self, request):
         # Start to serve request if possible
         if len(self.activeRequests) < self.maxActiveJobs:
@@ -76,6 +81,8 @@ class Server:
         else:
             self.waitingRequests.append(request)
 
+    ## Starts to serve the request
+    # @param The request to start
     def startRunningRequest(self, request):
         #self.sim.log(self, "Got to start running request " + str(request.requestId) + "," + str(request.isClone))
         self.activeRequests.append(request)
@@ -94,6 +101,7 @@ class Server:
 
         self.sim.add(completionTime, request.serverOnCompleted)
 
+    ## Updates the properties of the current running requests
     def updateRunningRequests(self):
         #self.sim.log(self, "Got to update running requests")
         nbrRequestsActive = len(self.activeRequests)
@@ -110,11 +118,15 @@ class Server:
             completionTime = len(self.activeRequests) * request.remainingTime
             self.sim.update(completionTime, request.serverOnCompleted)
 
+    ## Updates the average processor share statistic for the request
+    # @param The request of interest
     def updateAvgProcessorShare(self, request):
         if self.sim.now > request.arrival:
             request.avgProcessorShare = ((request.lastCheckpoint - request.arrival) * request.avgProcessorShare + (
                 self.sim.now - request.lastCheckpoint) * request.processorShare) / (self.sim.now - request.arrival)
 
+    ## Draws a service time for the request
+    # @param activeRequest The request of interest
     def drawServiceTime(self, activeRequest):
         if not hasattr(activeRequest, 'serviceTime'):
             #self.sim.log(self, "Request service time gets set: " + str(activeRequest.requestId))
@@ -130,6 +142,8 @@ class Server:
             #self.sim.log(self, "Request service time already set: " + str(activeRequest.requestId))
             return activeRequest.serviceTime
 
+    ## Event handler for the cancellation event linked to a specific request
+    # @param request The request of interest
     def onCanceled(self, request):
         #self.sim.log(self, "Got to onCanceled for req " + str(request.requestId) + " in server " + str(self))
 
@@ -142,7 +156,8 @@ class Server:
         request.serverOnCanceled = lambda: self.performCancellation(request)
         self.sim.add(cancellationDelay, request.serverOnCanceled)
 
-
+    ## Cancels the request
+    # @param request The request to cancel
     def performCancellation(self, request):
 
         if request in self.activeRequests:
@@ -161,7 +176,7 @@ class Server:
         # self.sim.log(self, "Leaving onCanceled() at " + str(self.sim.now))
 
     ## Event handler for request completion.
-    # Marks the request as completed, calls request.onCompleted() and picks a new request to schedule.
+    # Marks the request as completed, calls request.onCompleted() and picks new requests to schedule.
     # @param request request that has received enough service time
     def onCompleted(self, request):
         #self.sim.log(self, "Got to onCompleted() for reqId " + str(request.requestId) +  " in " + str(self))
@@ -183,6 +198,8 @@ class Server:
             self.sim.update(0.0, request.serverOnCanceled)
 
 
+    ## Tries to start serving new requests if possible
+    # @param activeRequestStopped If true then all current running request need to be updated
     def continueWithRequests(self, activeRequestStopped):
         # Append the next request waiting to run (if there is one)
         if (len(self.waitingRequests) > 0) and (len(self.activeRequests) < self.maxActiveJobs):

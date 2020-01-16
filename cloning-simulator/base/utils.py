@@ -65,6 +65,10 @@ def normalize(numbers):
     return [n / s for n in numbers]
 
 
+## Provides properties for the distribution when subject to cloning under the specified conditions
+# @param dist The distribution of interest
+# @param util The utilization of interest
+# @param cloneFactor The clone factor of interest
 def getDistInfo(dist, util, cloneFactor):
     xmax = 100
     N = 1000000
@@ -146,15 +150,23 @@ def getDistInfo(dist, util, cloneFactor):
 
         return lambd, avg_s
 
+## Provides the mean service time for a distribution subject to a clone factor
+# @param dist The distribution of interest
+# @param cloneFactor The clone factor of interest
 def getMeanServiceTime(dist, cloneFactor):
     lambd, avg_s = getDistInfo(dist, 0.5, cloneFactor)
     return avg_s
 
+## Provides the lambda fraction (between 0 and 1) for a distribution subject to a clone factor and utilization
+# @param dist The distribution of interest
+# @param util The utilization of interest
+# @param cloneFactor The clone factor of interest
 def getLambdaFrac(dist, util, cloneFactor):
     lambd, avg_s = getDistInfo(dist, util, cloneFactor)
     return lambd
 
-
+## Reads a csv file that contains the cdf of the distribution
+# @param filename The name of the file that contains the cdf (in csv format)
 def readCsv(filename):
     cdfvec = []
     with open(filename, 'r') as f:

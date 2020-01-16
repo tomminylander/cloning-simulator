@@ -72,6 +72,9 @@ class SimulatorKernel:
         self.whatToTime[what] = self.now + delay
         return what
 
+    ## Deletes an event
+    # @param what Event handler, can be a function, class method or lambda
+    # @see Callable
     def delete(self, what):
         if what in self.whatToTime:
             oldTime = self.whatToTime[what]
@@ -164,6 +167,7 @@ class SimulatorKernel:
         # kills performance, but reduces experimenter's impatience :D
         #outputFile.flush()
 
+    ## Checks if the current simulation is (very close to) unstable.
     def isUnstable(self):
         if (self.now - self.lastUtilCheck) > self.utilCheckInterval:
             utils = []

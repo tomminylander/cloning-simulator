@@ -2,6 +2,9 @@ import scipy.stats
 import numpy as np
 from base.numerical_dist import NumericalDistribution
 
+## Scenario used by the simulations that use one single service time distribution.
+# Uses the processor sharing discipline.
+
 nbrServers = nbrOfServers #12
 seed = setSeed
 

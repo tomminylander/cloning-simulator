@@ -3,38 +3,28 @@ import numpy as np
 import csv
 import random as xxx_random
 
-
+## Class that handles custom numerical distributions defined by a cumulative distribution function (CDF)
+# Contains functionality to draw random numbers using the rvs() method
 class NumericalDistribution:
 
+    ## Constructor
+    # @param cdf_location Where the cdf describing the distribution is located
     def __init__(self, cdf_location=None, seed=1):
         cdf = np.asarray(self.readCsv(cdf_location))
         self.cdf_x = cdf[:, 0]
         self.cdf_y = cdf[:, 1]
         self.max_cdf = self.cdf_y[-1]
 
-        # Uncomment here if to use pre-inverted cdf
-        #self.icdf = {}
-        #self.invertCdf()
-        #self.h = 0.00001
-        #self.icdfSize = 99999
-
         self.random = xxx_random.Random()
         self.random.seed(seed)
 
-    def invertCdf(self):
-        for i in range(0, self.icdfSize):
-            point = i*self.h
-            invertedPoint = self.invertPoint(point)
-            self.icdf[point] = invertedPoint
-
+    ## Draws a new random variable from the distribution
     def rvs(self):
-        # Uncomment here if to use pre-inverted cdf
-        #key = float(self.random.randint(0, self.icdfSize-1)*self.h)
-        #return self.icdf[key]
-
         point = self.random.random()*self.max_cdf
         return self.invertPoint(point)
 
+    ## Provides the random variable associated with the CDF value point
+    # @param point The cdf value (between 0 and 1)
     def invertPoint(self, point):
         N = self.cdf_x.size
         x_u = N-1
@@ -65,6 +55,8 @@ class NumericalDistribution:
 
         return invertedPoint
 
+    ## Reads a csv file that contains the cdf of the distribution
+    # @param filename The name of the file that contains the cdf (in csv format)
     def readCsv(self, filename):
         cdfvec = []
         with open(filename, 'r') as f:

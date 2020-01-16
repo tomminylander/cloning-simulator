@@ -7,8 +7,10 @@ from base import *
 class OpenLoopClient:
 	## Constructor.
 	# @param sim Simulator to attach client to
-	# @param server server-like entity to which requests are sent
-	# @param rate average arrival rate
+	# @param server Server-like entity to which requests are sent
+	# @param uniformArrivals 1 if uniform arrivals are to be used, 0 otherwise
+	# @param rate Average arrival rate
+    # @param seed The random seed
 	def __init__(self, sim, server, uniformArrivals = 0, rate = 0, seed = 1):
 		## average arrival rate (model parameter)
 		self.rate = rate
@@ -82,6 +84,7 @@ class ClosedLoopClient:
 	# @param sim Simulator to attach client to
 	# @param server server-like entity to which requests are sent
 	# @param thinkTime average think-time between issuing consecutive requests
+    # @param seed The random seed
 	def __init__(self, sim, server, thinkTime = 1, seed = 1):
 		## average think-time (model parameter)
 		self.averageThinkTime = thinkTime
