@@ -57,15 +57,17 @@ for scenario in NBR_SCENARIOS:
     cancellationDelay = cancellationDelayFrac*meanServiceTime
     arrivalDelay = arrivalDelayFrac*meanServiceTime
 
-    os.makedirs("result_randomized_combined_delays/scenario{}".format(scenario))
+    resultPath = "../simulation-results/randomized-combined-delays/scenario{}".format(scenario)
+    if not os.path.isdir(resultPath):
+        os.makedirs(resultPath)
 
     count += 1
     simulations.append("./simulator.py  --lb clone-random --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --arrivalDelay {} --cancellationDelay {} --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir ../simulation-results/randomized_combined_delays/scenario{} \
-        ".format(cloneFactor, arrivalDelay, cancellationDelay, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
+        --setSeed {} --maxRunTime {} --outdir {} \
+        ".format(cloneFactor, arrivalDelay, cancellationDelay, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, resultPath))
 
-    with open("../simulation-results/randomized_combined_delays/scenario{}/description.csv".format(scenario), 'a') as f:
+    with open("{}/description.csv".format(resultPath), 'a') as f:
         f.write("dist,{}\nutil,{}\nnbrServer,{}\ncloneFactor,{}\nmeanServiceTime,{}\nlambdafrac,{}\ndelayFrac,{}\narrivalDelay,{}\ncancellationDelayFrac,{}\ncancellationDelay,{}"
                 .format(dist, util, nbrServer, cloneFactor, meanServiceTime, frac, delayFrac, arrivalDelay, cancellationDelayFrac, cancellationDelay))
 
