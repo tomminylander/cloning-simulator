@@ -2,6 +2,8 @@ import os
 import numpy as np
 from multiprocessing import Pool
 
+## Script that runs the G/G/1 example simulations for the ICPE-2020 paper
+
 # Parameters
 MC_SIMS = range(0, 1)
 PROCESSES = 2
@@ -20,7 +22,7 @@ for k in MC_SIMS:
             --printout 0 --printRespTime 1 --dist fromPath --path dists/mintest-v2.csv  --serviceRate 1.0 --uniformArrivals 1 \
             --arrivalRateFrac 0.5 --nbrOfServers 1 --setSeed {} --outdir result_gg1Example/equivalent-ps/sim{}".format(count*10 + 123456, k))
 
-# Run the simulation
+# Run the simulations
 pool = Pool(processes=PROCESSES)
 for k, simulation in enumerate(simulations):
     simulation += " --printsim {}".format(k+1)

@@ -2,6 +2,8 @@ import os
 import numpy as np
 from multiprocessing import Pool
 
+## Script that runs the clone-to-all simulations for the ICPE-2020 paper
+
 # Parameters
 MC_SIMS = range(0, 5)
 SERVERS = range(1, 13)
@@ -27,7 +29,7 @@ for k in MC_SIMS:
                 --printout 0 --printRespTime 0 --dist SXmodel --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
                 --setSeed {} --outdir result_optimal_clone/s{}_af{}/sim{}".format(servers, frac, servers, count*10 + 123456, servers, i, k))
 
-# Run the simulation
+# Run the simulations
 pool = Pool(processes=PROCESSES)
 for k, simulation in enumerate(simulations):
     simulation += " --printsim {}".format(k+1)

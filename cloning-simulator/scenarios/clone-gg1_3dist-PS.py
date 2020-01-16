@@ -1,6 +1,9 @@
 import scipy.stats as stats
 import numpy as np
 
+## Scenario used by the G/G/1 example simulations.
+# Uses the processor sharing discipline.
+
 nbrServers = nbrOfServers #12
 
 s1dist = stats.expon(scale=1/0.48)

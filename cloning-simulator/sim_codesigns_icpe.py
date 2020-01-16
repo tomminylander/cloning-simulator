@@ -2,6 +2,8 @@ import os
 import numpy as np
 from multiprocessing import Pool
 
+## Script that runs the co-design simulations for the ICPE-2020 paper
+
 # Parameters
 MC_SIMS = range(0, 20)
 LAMBDA_FRAC = [0.30, 0.38, 0.52, 0.62, 0.70]
@@ -36,7 +38,7 @@ for sim in MC_SIMS:
                 --setSeed {} --maxRunTime {} --outdir result_codesigns/clusterRandom-PS/c{}_af{}/sim{} \
                 ".format(clones, frac, count*100 + 123456, MAXRUNTIME, clones, i, sim))
 
-# Run the simulation
+# Run the simulations
 pool = Pool(processes=PROCESSES)
 for k, simulation in enumerate(simulations):
     simulation += " --printsim {}".format(k+1)

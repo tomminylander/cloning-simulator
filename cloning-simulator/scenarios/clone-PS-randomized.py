@@ -1,6 +1,9 @@
 import scipy.stats
 import numpy as np
 
+## Scenario used by the simulations that use a randomized service time distribution.
+# Uses the processor sharing discipline.
+
 nbrServers = nbrOfServers
 seed = setSeed
 for i in range(0, nbrServers):

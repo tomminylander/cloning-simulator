@@ -11,6 +11,11 @@ class LoadBalancer:
     ## Supported load-balancing algorithms.
     ALGORITHMS = "SQF clone-SQF random RR clone-random IQ RIQ cluster-SQF cluster-random cluster-w-random cluster-SED".split()
 
+    ## Constructor
+    # @param sim Reference to the simulator kernel
+    # @param seed The random seed
+    # @param printout Bool describing if progress reports should be printed to stdout
+    # @param printRespTime Bool describing if results should be printed to stdout
     def __init__(self, sim, seed = 1, printout = 1, printRespTime = 1):
         self.progressPeriod = 1000000.0
         ## what algorithm to use
@@ -78,9 +83,12 @@ class LoadBalancer:
         else:
             if onShutdownCompleted:	onShutdownCompleted()
 
+    ## Sets the d parameter (a design parameter for the RIQ and IQ cloning algorithms)
+    # @param d The value of the d parameter to be set
     def setD(self, d):
         self.d = d
 
+    ## Sets heterogeneous slowdowns
     def setHeteroSlowdowns(self):
         self.heteroslowdowns['1'] = 4.691
         self.heteroslowdowns['11'] = 2.9429
@@ -95,7 +103,7 @@ class LoadBalancer:
         self.heteroslowdowns['1122'] = 1 # Dummy weight
         self.heteroslowdowns['1212'] = 1 # Dummy weight
 
-
+    ## Group servers into clusters (used by some cloning algorithms)
     def setClusters(self):
         nbrClones = self.sim.cloner.nbrClones
         nbrServers = len(self.queueLengths)
@@ -126,7 +134,7 @@ class LoadBalancer:
             for i in range(0, nbrClusters):
                 self.clusterWeights[i] = self.clusterWeights[i]/weightSum
 
-    ## Handles a request.
+    ## Handles a request. This is the main entry point to this class
     # @param request the request to handle
     def request(self, request):
         #self.sim.log(self, "Got request {0}", request)
@@ -282,6 +290,8 @@ class LoadBalancer:
             self.tryCloneRequest(request)
             self.backends[chosenBackendIndex].request(request)
 
+    ## Tries to clone a specified request
+    # @param request The request to try to clone
     def tryCloneRequest(self, request):
         clone = self.sim.cloner.clone(request)
 
@@ -289,6 +299,8 @@ class LoadBalancer:
             #self.sim.log(self, "Cloned request " + str(request.requestId))
             self.request(clone)
 
+    ## Event handler for the cancellation event linked to the specific request
+    # @param request The request that is linked to the cancellation event
     def onCanceled(self, request):
         #self.sim.log(self, "onCanceled with req id " + str(request.requestId) + "," + str(request.isClone))
         chosenBackendIndex = self.backends.index(request.chosenBackend)
@@ -329,6 +341,7 @@ class LoadBalancer:
         # Call original onCompleted
         request.originalRequest.onCompleted()
 
+    ## Prints progress to std out
     def runProgressLoop(self):
         if self.printout:
             print self.sim.now
