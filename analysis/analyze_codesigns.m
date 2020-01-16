@@ -9,6 +9,8 @@ addpath('./functions')
 if ~isfile('codesigns.mat')
     path = '../simulation-results/co-designs';
     
+    check_result_path(path);
+    
     tests = dir(path);
     tests(1:2) = [];
     

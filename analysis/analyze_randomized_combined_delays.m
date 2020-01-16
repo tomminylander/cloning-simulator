@@ -7,6 +7,9 @@ clear all;
 
 if ~isfile('randomized_combined_data.mat')
     path = '../simulation-results/randomized-combined-delays';
+    
+    check_result_path(path);
+    
     tests = dir(path);
     tests(1:2) = [];
     

@@ -51,10 +51,10 @@ for scenario in NBR_SCENARIOS:
     count += 1
     simulations.append("./simulator.py  --lb clone-random --scenario scenarios/clone-PS-randomized.py --cloning 1 --nbrClones {} \
         --printout 0 --printRespTime 0 --arrivalDelay {} --cancellationDelay {} --dist {} --serviceRate 1.0 --arrivalRateFrac {} --nbrOfServers {} \
-        --setSeed {} --maxRunTime {} --outdir result_randomized_arrival_delays/scenario{} \
+        --setSeed {} --maxRunTime {} --outdir ../simulation-results/randomized_arrival_delays/scenario{} \
         ".format(cloneFactor, arrivalDelay, cancellationDelay, dist, frac, nbrServer, count*100 + 123456, MAXRUNTIME, scenario))
 
-    with open("result_randomized_arrival_delays/scenario{}/description.csv".format(scenario), 'a') as f:
+    with open("../simulation-results/randomized_arrival_delays/scenario{}/description.csv".format(scenario), 'a') as f:
         f.write("dist,{}\nutil,{}\nnbrServer,{}\ncloneFactor,{}\nmeanServiceTime,{}\nlambdafrac,{}\narrivalDelay,{}\ncancellationDelay,{}"
                 .format(dist, util, nbrServer, cloneFactor, meanServiceTime, frac, arrivalDelay, cancellationDelay))
 

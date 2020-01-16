@@ -7,7 +7,10 @@ clear all;
 addpath('./functions')
 
 if ~isfile('gg1_example.mat')
-    path = '../simulation-results/gg1-example';
+    path = '../simulation-results/gg1Example';
+    
+    check_result_path(path);
+    
     tests = dir(path);   
     tests(1:2) = [];
     

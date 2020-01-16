@@ -14,11 +14,11 @@ for k in MC_SIMS:
         count += 1
         simulations.append("./simulator.py  --lb clone-random --scenario scenarios/clone-gg1_3dist-PS.py --cloning 1 --nbrClones 3 \
             --printout 0 --printRespTime 1 --dist SXmodel --serviceRate 1.0 --uniformArrivals 1 --arrivalRateFrac 0.5 --nbrOfServers 3 \
-            --setSeed {} --outdir result_gg1Example/3dist-ps/sim{}".format(count*10 + 123456, k))
+            --setSeed {} --outdir ../simulation-results/gg1Example/3dist-ps/sim{}".format(count*10 + 123456, k))
 
         simulations.append("./simulator.py  --lb clone-random --scenario scenarios/clone-PS.py --cloning 1 --nbrClones 1 \
             --printout 0 --printRespTime 1 --dist fromPath --path dists/mintest-v2.csv  --serviceRate 1.0 --uniformArrivals 1 \
-            --arrivalRateFrac 0.5 --nbrOfServers 1 --setSeed {} --outdir result_gg1Example/equivalent-ps/sim{}".format(count*10 + 123456, k))
+            --arrivalRateFrac 0.5 --nbrOfServers 1 --setSeed {} --outdir ../simulation-results/gg1Example/equivalent-ps/sim{}".format(count*10 + 123456, k))
 
 # Run the simulation
 pool = Pool(processes=PROCESSES)

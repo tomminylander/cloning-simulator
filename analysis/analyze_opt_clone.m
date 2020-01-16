@@ -7,8 +7,11 @@ clear all;
 
 addpath('./functions')
 
-if ~isfile('clone_to_all.mat')
+if ~isfile('clone:w_to_all.mat')
     path = '../simulation-results/clone-to-all';
+    
+    check_result_path(path);
+    
     data = read_mcData(path);
     save('clone_to_all.mat', 'data');
 else

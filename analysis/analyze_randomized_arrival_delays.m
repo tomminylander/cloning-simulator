@@ -8,6 +8,9 @@ addpath('./functions')
 
 if ~isfile('randomized_arrival_data.mat')
     path = '../simulation-results/randomized-arrival-delays';
+    
+    check_result_path(path);
+    
     tests = dir(path);
     tests(1:2) = [];
     

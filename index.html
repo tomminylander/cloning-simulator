@@ -4,8 +4,8 @@
 <h3><strong>Running the artifact docker container<br /></strong></h3>
 <p>Everything needed to run the components of the artifact is included in the form of a Dockerfile. To build the<br />associated image, in the home directory of the artifact simply run</p>
 <p style="padding-left: 30px;">&gt; docker build -t artifact .</p>
-<p>By starting the container, and sharing the folders for the plots and cloning simulator, results can easily be <br />accessed from the host. To start the container and run bash interactively with the shared folders, do</p>
-<p style="padding-left: 30px;">&gt; docker run -it -v $(pwd)/plots:/work/plots -v $(pwd)/cloning-simulator:/work/cloning-simulator artifact /bin/bash</p>
+<p>By starting the container and sharing the folder, results can easily be <br />accessed from the host. To start the container and run bash interactively with the shared folder, do</p>
+<p style="padding-left: 30px;">&gt; docker run -it -v $(pwd):/work/ --name artifact_container artifact /bin/bash</p>
 <h3><strong>Evaluating the simulator<br /></strong></h3>
 <p>The simulator is contained in the /work/cloning-simulator directory and is directly executable in the artifact<br />container. In the artifact container, type</p>
 <p>&nbsp; &nbsp; &nbsp; &gt; cd cloning-simulator</p>
@@ -20,32 +20,28 @@
 <p>In order to run the simulation experiments in our paper, first make sure that you are in the artifact container in the cloning-simulator directory.</p>
 <p>To run the G/G/1 example experiments:</p>
 <p>&nbsp; &nbsp; &nbsp; &gt;&nbsp;python sim_gg1_3dist.py</p>
-<p>Corresponding result directory: result_gg1Example</p>
+<p>Corresponding result directory: /work/simulation-results/result_gg1Example</p>
 <p>To run the clone-to-all experiments:</p>
 <p>&nbsp; &nbsp; &nbsp;&gt;&nbsp;python sim_optimal_clone-ps.py&nbsp;</p>
-<p>Corresponding result directory:&nbsp;result_optimal_clone</p>
+<p>Corresponding result directory:&nbsp; /work/simulation-results/result_optimal_clone</p>
 <p>To run the co-design experiments:</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; python&nbsp;sim_codesigns_icpe.py&nbsp;</p>
-<p>Corresponding result directory:&nbsp;result_codesigns</p>
+<p>Corresponding result directory:&nbsp; /work/simulation-results/result_codesigns</p>
 <p>To run the randomized arrival delay experiments:</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; python sim_randomized_arrival_delays.py</p>
-<p>Corresponding result directory:&nbsp;result_randomized_arrival_delays</p>
+<p>Corresponding result directory:&nbsp; /work/simulation-results/result_randomized_arrival_delays</p>
 <p>To run the randomized cancellation delay experiments:</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; python sim_randomized_cancellation_delays.py</p>
-<p>Corresponding result directory:&nbsp;result_randomized_cancellation_delays</p>
+<p>Corresponding result directory:&nbsp; /work/simulation-results/result_randomized_cancellation_delays</p>
 <p>To run the randomized combined delay experiments:</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; python sim_randomized_combined_delays.py</p>
-<p>Corresponding result directory:&nbsp;result_randomized_combined_delays</p>
+<p>Corresponding result directory:&nbsp; /work/simulation-results/result_randomized_combined_delays</p>
 <p>To run the randomized sync vs nonsync experiments:</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; python sim_randomized_sync_vs_nonsync_icpe.py</p>
-<p>Corresponding result directory:&nbsp;result_randomized_sync_vs_nonsync</p>
+<p>Corresponding result directory:&nbsp; /work/simulation-results/result_randomized_sync_vs_nonsync</p>
 <p>&nbsp;</p>
 <p>The most effective way to stop the simulation scripts that run in the container is to open a new terminal, and type</p>
-<p>&nbsp; &nbsp; &nbsp;&gt; docker container ls</p>
-<p>and note the name of the container that is running. Then type&nbsp;</p>
-<p>&nbsp; &nbsp; &nbsp;&gt; docker exec -it &lt;container-name&gt; bash</p>
-<p>to access a new terminal within the container. Then type</p>
-<p>&nbsp; &nbsp; &nbsp;&gt; pkill python</p>
+<p>&nbsp; &nbsp; &nbsp;&gt; docker exec artifact_container pkill python</p>
 <p>to kill all python processes within the container.</p>
 <h3><strong>Simulation result data</strong></h3>
 <p>All result data is included. In the home directory, extract the simulation-results.zip file.&nbsp;</p>

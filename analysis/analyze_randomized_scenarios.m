@@ -9,6 +9,9 @@ addpath('./functions')
 
 if ~isfile('randomized_sync_vs_nonsync.mat')
     path = '../simulation-results/randomized-sync-vs-nonsync';
+    
+    check_result_path(path);
+    
     tests = dir(path);
     tests(1:2) = [];
     
