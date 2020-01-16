@@ -45,10 +45,10 @@
 <p>&nbsp; &nbsp; &nbsp;&gt; docker exec artifact_container pkill python</p>
 <p>to kill all python processes within the container.</p>
 <h3><strong>Simulation result data</strong></h3>
-<p>All result data is included. In the home directory, extract the simulation-results.zip file.&nbsp;</p>
+<p>All result data is included. In the home directory, extract the prerun-simulation-results.zip file such that its name is preserved.&nbsp;</p>
 <h3>&nbsp;</h3>
 <h3><strong>Data pre-processing and analysis</strong></h3>
-<p>The raw simulation data needs to be processed for plotting, in the analysis directory of the artifact analytics and pre-processing scripts are provided. Start Matlab (R2018a or newer), and make sure that you are in the analysis directory. Then the following scripts can be run in Matlab:</p>
+<p>The raw simulation data needs to be processed for plotting, in the analysis directory of the artifact analytics and pre-processing scripts are provided. Start Matlab (R2018a or newer), and make sure that you are in the analysis directory. Note that these scripts require that the raw simulation data is available, i.e. either the simulations need to have run to completion or the prerun-simulation-results.zip file needs to be extracted. Then the following scripts can be run in Matlab:</p>
 <p>&nbsp; &nbsp; &nbsp;&gt;&nbsp;analyze_codesigns.m&nbsp; &nbsp;</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; analyze_randomized_arrival_delays.m</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; analyze_randomized_cancellation_delays.m</p>
@@ -56,9 +56,9 @@
 <p>&nbsp; &nbsp; &nbsp;&gt; analyze_randomized_scenarios.m</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; analyze_gg1_example.m&nbsp;</p>
 <p>&nbsp; &nbsp; &nbsp;&gt; analyze_opt_clone.m&nbsp; &nbsp;</p>
-<p>As previously stated, these scripts do not need to be run in order to re-create the plots as the results of the analysis scripts are already provided in the artifact.</p>
+<p>As previously stated, these analytics and pre-processing scripts do not need to be run in order to re-create the plots as the results of the analysis scripts are already provided in the artifact.</p>
 <h3><strong>Recreating the plots</strong></h3>
 <p>The plots seen in the paper can be generated in LaTeX from the processed raw data. From the "/work/plots"&nbsp;<br />directory on the artifact container, simply run</p>
 <p style="padding-left: 30px;">&gt; pdflatex main.tex</p>
-<p>Since the plots directory in the container is shared with the host, the resulting pdf-file is easily accessed in the plots directory of the artifact.</p>
+<p>Since the plots directory in the container is shared with the host, the resulting pdf-file is easily accessed in the plots directory of the artifact on the host computer.</p>
 <p>&nbsp;</p>
