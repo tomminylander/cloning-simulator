@@ -7,10 +7,10 @@ clear all;
 addpath('./functions')
 
 if ~isfile('gg1_example.mat')
-    path = '../simulation-results/gg1Example';
+    path = '../simulation-results/gg1-example';
     
     if ~(check_result_path(path))
-        path = '../prerun-simulation-results/gg1Example';
+        path = '../prerun-simulation-results/gg1-example';
         check_prerun_result_path(path);
     end
     
