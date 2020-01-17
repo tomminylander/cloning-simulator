@@ -35,6 +35,12 @@ else
     m = length(dataCell);
 end
 
+dataPath = '../plots/data/randomized-delays/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
+
+
 %% Process the data
 utils = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
 delayFracs = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5];
@@ -100,16 +106,11 @@ end
 
 %% Write data to txt-files
 
-dataPath = '../plots/data/randomized-delays/';
-if ~isfolder(dataPath)
-    mkdir(dataPath);
-end
-
-fileID = fopen('../plots/data/randomized-delays/randomized_combined_delays_confint_bound.txt','w');
+fileID = fopen([dataPath 'randomized_combined_delays_confint_bound.txt'],'w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',(conf_bound_errors(1:end, :))');
 fclose(fileID);
 
-fileID = fopen('../plots/data/randomized-delays/randomized_combined_delays_confint_resp.txt','w');
+fileID = fopen([dataPath 'randomized_combined_delays_confint_resp.txt'],'w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',(conf_resp_errors(1:end, :))');
 fclose(fileID);
 

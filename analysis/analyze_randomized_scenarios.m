@@ -43,6 +43,11 @@ else
     m = length(dataCell);
 end
 
+dataPath = '../plots/data/randomized-sync-vs-nonsync/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
+
 %% Process the data
 utils = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
 
@@ -100,24 +105,19 @@ end
 
 %% Write data to txt-files
 
-dataPath = '../plots/data/randomized-sync-vs-nonsync/';
-if ~isfolder(dataPath)
-    mkdir(dataPath);
-end
-
-fileID = fopen('../plots/data/randomized-sync-vs-nonsync/randomized_sqf_clone_confint.txt','w');
+fileID = fopen([dataPath 'randomized_sqf_clone_confint.txt'],'w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',conf_clone_sqf_errors');
 fclose(fileID);
 
-fileID = fopen('../plots/data/randomized-sync-vs-nonsync/randomized_sqf_mean_confint.txt','w');
+fileID = fopen([dataPath 'randomized_sqf_mean_confint.txt'],'w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',conf_normalized_sqf_errors');
 fclose(fileID);
 
-fileID = fopen('../plots/data/randomized-sync-vs-nonsync/randomized_random_clone_confint.txt','w');
+fileID = fopen([dataPath 'randomized_random_clone_confint.txt'],'w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',conf_clone_random_errors');
 fclose(fileID);
 
-fileID = fopen('../plots/data/randomized-sync-vs-nonsync/randomized_random_mean_confint.txt','w');
+fileID = fopen([dataPath 'randomized_random_mean_confint.txt'],'w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',conf_normalized_random_errors');
 fclose(fileID);
 

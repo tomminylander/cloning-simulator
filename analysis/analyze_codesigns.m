@@ -33,6 +33,11 @@ else
     m = length(dataCell);
 end
 
+dataPath = '../plots/data/co-design/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
+
 %% Process the data
 
 LAMBDA_FRAC = [0.3, 0.38, 0.52, 0.62, 0.7];
@@ -88,11 +93,6 @@ for test = 1:m
 end
 
 %% Write to csv
-
-dataPath = '../plots/data/co-design/';
-if ~isfolder(dataPath)
-    mkdir(dataPath);
-end
 
 for k = 2:3
     respResults = zeros(length(LAMBDA_FRAC)*2, 1);

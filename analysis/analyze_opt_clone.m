@@ -22,6 +22,10 @@ else
     data = tmp.data;
 end
 
+dataPath = '../plots/data/clone-to-all/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
 
 %% Process data
 
@@ -102,12 +106,12 @@ U = rates*0.01 + 0.05;
 csvVector1clone = [U, optclone_conf(:,1)];
 csvVector2clone = [U(end:-1:1), optclone_conf(end:-1:1,2)];
 csvVectorclone = [csvVector1clone; csvVector2clone];
-csvwrite('../plots/data/clone-to-all/optclone-confint.csv',csvVectorclone)
+csvwrite([dataPath 'optclone-confint.csv'], csvVectorclone)
 
 csvVector1mean = [U, optmean_conf(:,1)];
 csvVector2mean = [U(end:-1:1), optmean_conf(end:-1:1,2)];
 csvVectormean = [csvVector1mean; csvVector2mean];
-csvwrite('../plots/data/clone-to-all/optmean-confint.csv',csvVectormean)
+csvwrite([dataPath 'optmean-confint.csv'], csvVectormean)
 
 %% Get theoretical values
 clc;
@@ -232,13 +236,8 @@ new_optclones(new_index, 2) = orig_optclones(end, 2);
 
 %% Write data to csv
 
-dataPath = '../plots/data/clone-to-all/';
-if ~isfolder(dataPath)
-    mkdir(dataPath);
-end
-
-csvwrite('../plots/data/clone-to-all/optclones-ps.csv',new_optclones)
-csvwrite('../plots/data/clone-to-all/meanRTs-ps.csv',new_meanRTs)
+csvwrite([dataPath 'optclones-ps.csv'], new_optclones)
+csvwrite([dataPath 'meanRTs-ps.csv'], new_meanRTs)
 
 %% Functions
 

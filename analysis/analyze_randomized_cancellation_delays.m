@@ -35,9 +35,12 @@ else
     tmp = load('randomized_cancellation_data.mat');
     dataCell = tmp.dataCell;
     m = length(dataCell);
- end
-
-%% Save data
+end
+ 
+dataPath = '../plots/data/randomized-delays/';
+if ~isfolder(dataPath)
+    mkdir(dataPath);
+end
 
 
 %% Process the data
@@ -105,16 +108,11 @@ end
 
 %% Write data to txt-files
 
-dataPath = '../plots/data/randomized-delays/';
-if ~isfolder(dataPath)
-    mkdir(dataPath);
-end
-
-fileID = fopen('../plots/data/randomized-delays/randomized_cancellation_delays_confint_bound.txt','w');
+fileID = fopen([dataPath 'randomized_cancellation_delays_confint_bound.txt'],'w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',(conf_bound_errors(1:end, :))');
 fclose(fileID);
 
-fileID = fopen('../plots/data/randomized-delays/randomized_cancellation_delays_confint_resp.txt','w');
+fileID = fopen([dataPath 'randomized_cancellation_delays_confint_resp.txt'],'w');
 fprintf(fileID,'%6.4f %6.4f %6.4f %6.4f\n',(conf_resp_errors(1:end, :))');
 fclose(fileID);
 
