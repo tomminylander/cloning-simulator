@@ -68,7 +68,7 @@ for k = 1:lenRate
         p95RT(:, i) = cellfun(@(x) str2num(x), D{i, 1}.p95ResponseTime);
         stdRT(:, i) = cellfun(@(x) str2num(x), D{i, 1}.stddevResponseTime);
         
-        util = [cellfun(@(x) str2num(x), table2cell(D{i,1}(:, 10:end)))];
+        util = [cellfun(@(x) str2num(x), table2cell(D{i,1}(:, 10:end-2)))];
         % bugcheck
         for j = 1:MC_SIMS
            if length(unique(util(j, :))) ~= 1

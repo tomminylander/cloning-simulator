@@ -5,7 +5,7 @@ from multiprocessing import Pool
 ## Script that runs the clone-to-all simulations for the ICPE-2020 paper
 
 # Parameters
-MC_SIMS = range(0, 5)
+MC_SIMS = range(0, 20)
 SERVERS = range(1, 13)
 LAMBDA_FRAC = np.arange(0.05, 0.71, 0.01)
 PROCESSES = 24

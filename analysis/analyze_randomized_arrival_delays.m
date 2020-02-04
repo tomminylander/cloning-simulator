@@ -52,7 +52,7 @@ for j=1:length(resultCell)
     resultCell{j,1} = [];
 end
 
-for i = 1:2200
+for i = 1:size(dataCell, 1)
     mu = 1/(dataCell{i, 2}.meanServiceTime);
     theroetical_respTime = 1/(mu - dataCell{i, 2}.nbrServer*dataCell{i, 2}.lambdaFrac);
     bound = dataCell{i, 2}.arrivalDelay+theroetical_respTime;
