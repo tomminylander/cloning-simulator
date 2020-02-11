@@ -1,1 +1,1 @@
-To get started with the artifact evaluation, clone this Git repo using "git clone https://github.com/tomminylander/cloning-simulator.git" in a terminal. Further instructions on how to run and evaluate the artifact are available in the file index.html.
+Our artifacts for the paper "Modeling of Request Cloning in Cloud Server Systems using Processor Sharing", including simulator code and instructions on how to reproduce our results, are available at Zenodo: https://doi.org/10.5281/zenodo.3635905
